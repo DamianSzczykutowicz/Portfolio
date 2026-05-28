@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio — Mechanical Engineer</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0a0a0b;
+    --surface: #111114;
+    --surface2: #1a1a1f;
+    --border: rgba(255,255,255,0.07);
+    --border-bright: rgba(255,255,255,0.14);
+    --accent: #e8d5b0;
+    --accent2: #7ecac3;
+    --text: #e8e6e0;
+    --muted: #6b6a66;
+    --mono: 'Space Mono', monospace;
+    --sans: 'Syne', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.25rem 3rem;
+    background: rgba(10,10,11,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--accent);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    font-size: 13px;
+    font-family: var(--mono);
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--text); }
+
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 8rem 3rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-grid {
+    position: absolute; inset: 0; z-index: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, black 30%, transparent 100%);
+    -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, black 30%, transparent 100%);
+  }
+  .hero-tag {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    color: var(--accent2);
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    position: relative; z-index: 1;
+  }
+  .hero-tag::before {
+    content: '';
+    display: inline-block;
+    width: 24px; height: 1px;
+    background: var(--accent2);
+    vertical-align: middle;
+    margin-right: 10px;
+  }
+  h1 {
+    font-size: clamp(3.5rem, 8vw, 7rem);
+    font-weight: 800;
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    position: relative; z-index: 1;
+    margin-bottom: 1.5rem;
+  }
+  h1 .name-dim { color: var(--muted); }
+  h1 .name-bright { color: var(--text); }
+  .hero-sub {
+    font-size: 1rem;
+    color: var(--muted);
+    max-width: 480px;
+    position: relative; z-index: 1;
+    line-height: 1.7;
+    margin-bottom: 2.5rem;
+  }
+  .hero-cta {
+    display: flex; gap: 1rem; position: relative; z-index: 1;
+  }
+  .btn {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.75rem 1.75rem;
+    border-radius: 2px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s;
+    display: inline-block;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: #0a0a0b;
+    border: 1px solid var(--accent);
+  }
+  .btn-primary:hover { background: #f5e5c8; }
+  .btn-ghost {
+    background: transparent;
+    color: var(--muted);
+    border: 1px solid var(--border-bright);
+  }
+  .btn-ghost:hover { color: var(--text); border-color: var(--muted); }
+
+  .stats-bar {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    margin: 0 3rem;
+  }
+  .stat {
+    padding: 1.75rem 2rem;
+    border-right: 1px solid var(--border);
+  }
+  .stat:last-child { border-right: none; }
+  .stat-num {
+    font-family: var(--mono);
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--accent);
+    display: block;
+    margin-bottom: 0.25rem;
+  }
+  .stat-label {
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+    font-family: var(--mono);
+    text-transform: uppercase;
+  }
+
+  section { padding: 6rem 3rem; }
+  .section-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 3rem;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .project-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+    transition: border-color 0.3s;
+    margin-bottom: 1.5rem;
+  }
+  .project-card:hover { border-color: var(--border-bright); }
+  .project-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  .project-visual {
+    background: var(--surface2);
+    min-height: 340px;
+    position: relative;
+    overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+    border-right: 1px solid var(--border);
+  }
+  .cad-svg { width: 100%; height: 100%; position: absolute; inset: 0; }
+  .project-info { padding: 3rem; display: flex; flex-direction: column; justify-content: space-between; }
+  .project-num {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    margin-bottom: 1rem;
+  }
+  .project-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+    letter-spacing: -0.02em;
+    color: var(--text);
+  }
+  .project-desc {
+    font-size: 0.9rem;
+    color: var(--muted);
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+  }
+  .project-tags {
+    display: flex; flex-wrap: wrap; gap: 0.5rem;
+    margin-bottom: 2rem;
+  }
+  .tag {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.75rem;
+    border: 1px solid var(--border-bright);
+    color: var(--muted);
+    border-radius: 1px;
+  }
+  .tag-accent {
+    border-color: var(--accent2);
+    color: var(--accent2);
+  }
+
+  .coming-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+  .coming-card {
+    background: var(--surface);
+    border: 1px dashed var(--border-bright);
+    border-radius: 2px;
+    min-height: 220px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 1rem;
+    opacity: 0.5;
+    padding: 2rem;
+    text-align: center;
+  }
+  .coming-icon {
+    width: 40px; height: 40px;
+    border: 1px solid var(--border-bright);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .coming-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+  .coming-eta {
+    font-size: 12px;
+    color: var(--muted);
+    opacity: 0.6;
+  }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: start;
+  }
+  .about-text p {
+    color: var(--muted);
+    font-size: 0.95rem;
+    line-height: 1.8;
+    margin-bottom: 1rem;
+  }
+  .about-text p strong { color: var(--text); font-weight: 600; }
+  .skills-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+  }
+  .skill-item {
+    padding: 1rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+  }
+  .skill-name {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: var(--text);
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+  .skill-bar {
+    height: 2px;
+    background: var(--border-bright);
+    border-radius: 1px;
+    overflow: hidden;
+  }
+  .skill-fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 1px;
+  }
+
+  .contact-strip {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 4rem 3rem;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .contact-heading {
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--text);
+  }
+  .contact-heading span { color: var(--accent); }
+  .contact-links { display: flex; gap: 1rem; }
+
+  footer {
+    padding: 2rem 3rem;
+    display: flex; justify-content: space-between; align-items: center;
+    border-top: 1px solid var(--border);
+  }
+  footer p {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .hero-tag { animation: fadeUp 0.6s ease both; }
+  h1 { animation: fadeUp 0.6s 0.1s ease both; }
+  .hero-sub { animation: fadeUp 0.6s 0.2s ease both; }
+  .hero-cta { animation: fadeUp 0.6s 0.3s ease both; }
+
+  @keyframes drawLine {
+    from { stroke-dashoffset: 1000; }
+    to { stroke-dashoffset: 0; }
+  }
+  .cad-line {
+    stroke-dasharray: 1000;
+    animation: drawLine 2.5s ease forwards;
+  }
+
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .hero { padding: 6rem 1.5rem 3rem; }
+    .stats-bar { margin: 0 1.5rem; grid-template-columns: 1fr; }
+    .stat { border-right: none; border-bottom: 1px solid var(--border); }
+    section { padding: 4rem 1.5rem; }
+    .project-inner { grid-template-columns: 1fr; }
+    .project-visual { min-height: 220px; border-right: none; border-bottom: 1px solid var(--border); }
+    .coming-grid { grid-template-columns: 1fr; }
+    .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .contact-strip { flex-direction: column; gap: 2rem; align-items: flex-start; }
+    footer { flex-direction: column; gap: 0.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-logo">ME.Portfolio</span>
+  <ul class="nav-links">
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<div class="hero">
+  <div class="hero-grid"></div>
+  <p class="hero-tag">Mechanical Engineer</p>
+  <h1>
+    <span class="name-dim">YOUR</span><br>
+    <span class="name-bright">NAME</span><br>
+    <span class="name-dim">HERE</span>
+  </h1>
+  <p class="hero-sub">Designing systems that move, hold, and endure. Specializing in structural analysis, precision fabrication, and design for manufacture.</p>
+  <div class="hero-cta">
+    <a href="#projects" class="btn btn-primary">View Projects</a>
+    <a href="#contact" class="btn btn-ghost">Get in Touch</a>
+  </div>
+</div>
+
+<div class="stats-bar">
+  <div class="stat">
+    <span class="stat-num">01</span>
+    <span class="stat-label">Projects completed</span>
+  </div>
+  <div class="stat">
+    <span class="stat-num">+2</span>
+    <span class="stat-label">Arriving this summer</span>
+  </div>
+  <div class="stat">
+    <span class="stat-num">∞</span>
+    <span class="stat-label">Iterations till right</span>
+  </div>
+</div>
+
+<section id="projects">
+  <p class="section-label">// Projects</p>
+
+  <div class="project-card">
+    <div class="project-inner">
+      <div class="project-visual">
+        <svg class="cad-svg" viewBox="0 0 480 340" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <pattern id="smallGrid" width="20" height="20" patternUnits="userSpaceOnUse">
+              <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(255,255,255,0.04)" stroke-width="0.5"/>
+            </pattern>
+          </defs>
+          <rect width="480" height="340" fill="url(#smallGrid)"/>
+          <rect class="cad-line" x="120" y="80" width="240" height="180" rx="3"
+            fill="none" stroke="rgba(232,213,176,0.3)" stroke-width="1"/>
+          <rect class="cad-line" x="150" y="110" width="180" height="120" rx="2"
+            fill="none" stroke="rgba(126,202,195,0.5)" stroke-width="1"
+            style="animation-delay:0.3s"/>
+          <line class="cad-line" x1="240" y1="60" x2="240" y2="280"
+            stroke="rgba(126,202,195,0.2)" stroke-width="0.5" stroke-dasharray="4 4"
+            style="animation-delay:0.5s"/>
+          <line class="cad-line" x1="100" y1="170" x2="380" y2="170"
+            stroke="rgba(126,202,195,0.2)" stroke-width="0.5" stroke-dasharray="4 4"
+            style="animation-delay:0.5s"/>
+          <circle cx="170" cy="130" r="12" fill="none" stroke="rgba(232,213,176,0.5)" stroke-width="1"/>
+          <circle cx="170" cy="130" r="3" fill="rgba(232,213,176,0.3)"/>
+          <circle cx="310" cy="130" r="12" fill="none" stroke="rgba(232,213,176,0.5)" stroke-width="1"/>
+          <circle cx="310" cy="130" r="3" fill="rgba(232,213,176,0.3)"/>
+          <circle cx="170" cy="210" r="12" fill="none" stroke="rgba(232,213,176,0.5)" stroke-width="1"/>
+          <circle cx="170" cy="210" r="3" fill="rgba(232,213,176,0.3)"/>
+          <circle cx="310" cy="210" r="12" fill="none" stroke="rgba(232,213,176,0.5)" stroke-width="1"/>
+          <circle cx="310" cy="210" r="3" fill="rgba(232,213,176,0.3)"/>
+          <line x1="120" y1="290" x2="360" y2="290" stroke="rgba(255,255,255,0.15)" stroke-width="0.5"/>
+          <line x1="120" y1="285" x2="120" y2="295" stroke="rgba(255,255,255,0.15)" stroke-width="0.5"/>
+          <line x1="360" y1="285" x2="360" y2="295" stroke="rgba(255,255,255,0.15)" stroke-width="0.5"/>
+          <text x="240" y="308" text-anchor="middle" fill="rgba(255,255,255,0.25)" font-family="'Space Mono',monospace" font-size="9" letter-spacing="1">240.0 mm</text>
+          <line x1="400" y1="80" x2="400" y2="260" stroke="rgba(255,255,255,0.15)" stroke-width="0.5"/>
+          <line x1="395" y1="80" x2="405" y2="80" stroke="rgba(255,255,255,0.15)" stroke-width="0.5"/>
+          <line x1="395" y1="260" x2="405" y2="260" stroke="rgba(255,255,255,0.15)" stroke-width="0.5"/>
+          <text x="420" y="174" text-anchor="middle" fill="rgba(255,255,255,0.25)" font-family="'Space Mono',monospace" font-size="9" letter-spacing="1" transform="rotate(90 420 174)">180.0 mm</text>
+          <line x1="120" y1="80" x2="80" y2="50" stroke="rgba(126,202,195,0.3)" stroke-width="0.5"/>
+          <circle cx="80" cy="50" r="2" fill="rgba(126,202,195,0.5)"/>
+          <text x="30" y="47" fill="rgba(126,202,195,0.6)" font-family="'Space Mono',monospace" font-size="8">R3.0</text>
+          <circle cx="440" cy="30" r="4" fill="#4ade80" opacity="0.8"/>
+          <text x="430" y="50" text-anchor="middle" fill="rgba(255,255,255,0.3)" font-family="'Space Mono',monospace" font-size="8">REV A</text>
+        </svg>
+      </div>
+      <div class="project-info">
+        <div>
+          <p class="project-num">Project — 001</p>
+          <h2 class="project-title">Your Project Title Here</h2>
+          <p class="project-desc">A brief description of what this project involved, the problem it solved, and what makes it interesting. Focus on your role, the constraints you worked within, and what the outcome was.</p>
+          <div class="project-tags">
+            <span class="tag tag-accent">CAD / SolidWorks</span>
+            <span class="tag">FEA Analysis</span>
+            <span class="tag">Fabrication</span>
+            <span class="tag">Prototyping</span>
+          </div>
+        </div>
+        <a href="#" class="btn btn-ghost" style="align-self:flex-start;">View Case Study →</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="coming-grid">
+    <div class="coming-card">
+      <div class="coming-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="1.5">
+          <rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/>
+        </svg>
+      </div>
+      <span class="coming-label">Project 002</span>
+      <span class="coming-eta">Coming Summer 2025</span>
+    </div>
+    <div class="coming-card">
+      <div class="coming-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="1.5">
+          <circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/>
+        </svg>
+      </div>
+      <span class="coming-label">Project 003</span>
+      <span class="coming-eta">Coming Summer 2025</span>
+    </div>
+  </div>
+</section>
+
+<section id="about" style="border-top:1px solid var(--border);">
+  <p class="section-label">// About</p>
+  <div class="about-grid">
+    <div class="about-text">
+      <p><strong>Mechanical engineer</strong> with a focus on [your focus area — e.g. thermal systems, structural design, mechatronics].</p>
+      <p>I approach engineering problems by obsessing over the constraints first — material limits, load paths, tolerance stacks — before touching any design tool. Good engineering is mostly thinking.</p>
+      <p>Currently [studying at / working at your institution or company]. Open to internships, collaborations, and interesting problems.</p>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-item">
+        <span class="skill-name">SolidWorks</span>
+        <div class="skill-bar"><div class="skill-fill" style="width:90%"></div></div>
+      </div>
+      <div class="skill-item">
+        <span class="skill-name">FEA / ANSYS</span>
+        <div class="skill-bar"><div class="skill-fill" style="width:75%"></div></div>
+      </div>
+      <div class="skill-item">
+        <span class="skill-name">GD&T</span>
+        <div class="skill-bar"><div class="skill-fill" style="width:80%"></div></div>
+      </div>
+      <div class="skill-item">
+        <span class="skill-name">MATLAB</span>
+        <div class="skill-bar"><div class="skill-fill" style="width:70%"></div></div>
+      </div>
+      <div class="skill-item">
+        <span class="skill-name">Machining</span>
+        <div class="skill-bar"><div class="skill-fill" style="width:85%"></div></div>
+      </div>
+      <div class="skill-item">
+        <span class="skill-name">DFM</span>
+        <div class="skill-bar"><div class="skill-fill" style="width:78%"></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="contact-strip" id="contact">
+  <div>
+    <p style="font-family:'Space Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:0.14em;text-transform:uppercase;margin-bottom:0.75rem;">// Let's work together</p>
+    <h2 class="contact-heading">Got a problem that<br>needs <span>engineering?</span></h2>
+  </div>
+  <div class="contact-links">
+    <a href="mailto:you@email.com" class="btn btn-primary">Email Me</a>
+    <a href="#" class="btn btn-ghost">LinkedIn</a>
+    <a href="#" class="btn btn-ghost">Resume</a>
+  </div>
+</div>
+
+<footer>
+  <p>© 2025 — Your Name</p>
+  <p>Mechanical Engineer</p>
+</footer>
+
+</body>
+</html>
