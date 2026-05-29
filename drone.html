@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Autonomous GPS Payload Drone — Damian Szczykutowicz</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0d0f12;--bg-soft:#15181d;--panel:#1a1e24;--line:#2a2f37;
+    --text:#e8eaed;--muted:#9aa1ab;--faint:#646b76;
+    --accent:#ff7a45;--blue:#5fb3c9;--maxw:1000px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);color:var(--text);
+    font-family:'IBM Plex Sans',sans-serif;line-height:1.65;
+    -webkit-font-smoothing:antialiased;overflow-x:hidden;
+    background-image:
+      linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);
+    background-size:32px 32px;
+  }
+  ::selection{background:var(--accent);color:#0d0f12}
+  a{color:inherit}
+
+  /* NAV */
+  nav{
+    position:fixed;top:0;left:0;right:0;z-index:50;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:18px clamp(20px,5vw,48px);
+    backdrop-filter:blur(12px);background:rgba(13,15,18,.85);
+    border-bottom:1px solid var(--line);
+  }
+  .brand{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:.9rem;letter-spacing:.04em;text-decoration:none}
+  .brand span{color:var(--accent)}
+  .back{
+    font-family:'IBM Plex Mono',monospace;font-size:.78rem;letter-spacing:.05em;
+    text-transform:uppercase;color:var(--muted);text-decoration:none;
+    display:inline-flex;align-items:center;gap:8px;transition:color .2s;
+  }
+  .back:hover{color:var(--accent)}
+  .back span{transition:transform .2s}
+  .back:hover span{transform:translateX(-4px)}
+
+  /* WRAP */
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(20px,5vw,48px)}
+
+  /* HERO */
+  .hero{padding:140px 0 50px}
+  .eyebrow{
+    font-family:'IBM Plex Mono',monospace;font-size:.78rem;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--accent);margin-bottom:20px;
+    display:flex;align-items:center;gap:12px;
+  }
+  .eyebrow::before{content:"";width:32px;height:1px;background:var(--accent)}
+  .hero h1{
+    font-family:'Bricolage Grotesque',sans-serif;font-weight:800;
+    font-size:clamp(2.2rem,6vw,4rem);line-height:1.02;letter-spacing:-.02em;margin-bottom:22px;
+  }
+  .hero .lede{font-size:1.15rem;color:var(--muted);max-width:680px}
+  .hero .lede strong{color:var(--text);font-weight:600}
+
+  /* HERO IMAGE / placeholder */
+  .hero-media{
+    margin:40px 0;border:1px solid var(--line);border-radius:8px;overflow:hidden;
+    aspect-ratio:16/9;background:
+      radial-gradient(circle at 50% 40%,rgba(255,122,69,.10),transparent 60%),var(--bg-soft);
+    display:flex;align-items:center;justify-content:center;position:relative;
+  }
+  .hero-media img{width:100%;height:100%;object-fit:cover;display:block}
+  .ph{
+    text-align:center;color:var(--faint);font-family:'IBM Plex Mono',monospace;
+    font-size:.82rem;letter-spacing:.05em;padding:20px;
+  }
+  .ph b{display:block;color:var(--muted);margin-bottom:6px;font-size:.95rem}
+
+  /* SPECS */
+  .specs{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+    gap:1px;background:var(--line);border:1px solid var(--line);
+    border-radius:6px;overflow:hidden;margin:10px 0 70px;
+  }
+  .spec{background:var(--bg-soft);padding:22px}
+  .spec .k{font-family:'IBM Plex Mono',monospace;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);margin-bottom:8px}
+  .spec .v{font-family:'Bricolage Grotesque',sans-serif;font-size:1.6rem;font-weight:600}
+  .spec .v small{font-size:.8rem;color:var(--accent);font-family:'IBM Plex Mono',monospace;display:block;margin-top:2px;font-weight:400}
+
+  /* CONTENT SECTIONS */
+  .section{padding:0 0 70px}
+  .sec-tag{
+    font-family:'IBM Plex Mono',monospace;font-size:.75rem;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--accent);margin-bottom:14px;
+  }
+  .section h2{
+    font-family:'Bricolage Grotesque',sans-serif;font-weight:600;
+    font-size:clamp(1.5rem,3.5vw,2.2rem);letter-spacing:-.01em;margin-bottom:18px;
+  }
+  .section p{color:var(--muted);font-size:1.05rem;margin-bottom:16px;max-width:760px}
+  .section p strong{color:var(--text);font-weight:600}
+
+  .media{
+    margin:28px 0;border:1px solid var(--line);border-radius:8px;overflow:hidden;
+    aspect-ratio:16/9;background:var(--bg-soft);
+    display:flex;align-items:center;justify-content:center;
+  }
+  .media img{width:100%;height:100%;object-fit:cover;display:block}
+
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+  @media(max-width:720px){.two{grid-template-columns:1fr}}
+  .two .media{margin:0}
+
+  ul.points{list-style:none;margin:8px 0 0;max-width:760px}
+  ul.points li{
+    color:var(--muted);padding:10px 0 10px 26px;position:relative;border-bottom:1px solid var(--line);
+  }
+  ul.points li:last-child{border-bottom:none}
+  ul.points li::before{content:"▸";position:absolute;left:0;color:var(--accent)}
+  ul.points li strong{color:var(--text);font-weight:600}
+
+  /* VIDEO placeholder */
+  .video-ph{
+    aspect-ratio:16/9;border:1px dashed var(--line);border-radius:8px;
+    background:var(--bg-soft);display:flex;flex-direction:column;
+    align-items:center;justify-content:center;gap:14px;color:var(--faint);
+  }
+  .video-ph .play{
+    width:62px;height:62px;border-radius:50%;border:1px solid var(--accent);
+    display:flex;align-items:center;justify-content:center;color:var(--accent);font-size:1.3rem;
+  }
+  .video-ph p{font-family:'IBM Plex Mono',monospace;font-size:.82rem;letter-spacing:.04em}
+
+  /* FOOTER */
+  footer{border-top:1px solid var(--line);margin-top:30px;padding:60px clamp(20px,5vw,48px)}
+  .footer-inner{max-width:var(--maxw);margin:0 auto}
+  .footer-cta{
+    font-family:'Bricolage Grotesque',sans-serif;font-weight:800;
+    font-size:clamp(1.8rem,5vw,3rem);line-height:1.05;letter-spacing:-.02em;margin-bottom:28px;
+  }
+  .footer-cta a{text-decoration:none;transition:color .2s}
+  .footer-cta a:hover{color:var(--accent)}
+  .footer-links{display:flex;gap:26px;flex-wrap:wrap;margin-bottom:36px}
+  .footer-links a{font-family:'IBM Plex Mono',monospace;font-size:.82rem;color:var(--muted);text-decoration:none;transition:color .2s}
+  .footer-links a:hover{color:var(--accent)}
+  .footer-bottom{
+    display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
+    font-family:'IBM Plex Mono',monospace;font-size:.72rem;color:var(--faint);
+    padding-top:22px;border-top:1px solid var(--line);
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="brand">DAMIAN<span>.</span>SZCZYKUTOWICZ</a>
+  <a href="index.html#work" class="back"><span>←</span> Back to Work</a>
+</nav>
+
+<div class="wrap">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="eyebrow">Project 001 · 2024–2025</div>
+    <h1>Autonomous GPS<br>Payload Drone</h1>
+    <p class="lede">A fully autonomous quadcopter that navigates to a target <strong>GPS coordinate</strong> and releases a payload on the mark — designed, built, and flight-tested for <strong>under $200</strong>.</p>
+
+    <!-- HERO IMAGE: replace the .ph block with <img src="drone-hero.jpg" alt="Drone"> -->
+    <div class="hero-media">
+      <div class="ph"><b>Add your hero photo</b>Replace this block with: &lt;img src="drone-hero.jpg" alt="Drone"&gt;</div>
+    </div>
+  </section>
+
+  <!-- SPECS -->
+  <div class="specs">
+    <div class="spec"><div class="k">Budget</div><div class="v">&lt;$200<small>total build</small></div></div>
+    <div class="spec"><div class="k">Navigation</div><div class="v">GPS<small>autonomous</small></div></div>
+    <div class="spec"><div class="k">Frame</div><div class="v">F450<small>custom legs</small></div></div>
+    <div class="spec"><div class="k">Payload</div><div class="v">Drop<small>servo release</small></div></div>
+  </div>
+
+  <!-- OVERVIEW -->
+  <section class="section">
+    <div class="sec-tag">// 01 — Overview</div>
+    <h2>The goal</h2>
+    <p>The objective was to build a low-cost autonomous delivery platform: a drone that could take off, fly to a user-defined GPS waypoint, and accurately drop a small payload — all on a tight student budget. The challenge was hitting reliable autonomous behavior and a clean mechanical design without expensive off-the-shelf hardware.</p>
+    <p>I owned the <strong>structural design</strong> and <strong>system integration</strong> — from the airframe and custom landing legs to the wiring, drop mechanism, and onboard companion computer running the vision pipeline.</p>
+  </section>
+
+  <!-- V1 -->
+  <section class="section">
+    <div class="sec-tag">// 02 — Iteration V1</div>
+    <h2>Proving the electronics</h2>
+    <p>The first build focused on getting the core flight stack working on the bench — flight controller, GPS module, power distribution, and motors — before committing to a final structure. V1 proved the autonomy logic and let me debug wiring and signal issues in a controlled setting.</p>
+    <div class="media">
+      <div class="ph"><b>Add your V1 bench photo</b>Replace with: &lt;img src="drone-v1.jpg" alt="V1 bench build"&gt;</div>
+    </div>
+    <ul class="points">
+      <li><strong>Validated:</strong> flight controller + GPS lock and waypoint hold</li>
+      <li><strong>Validated:</strong> power distribution and motor arming</li>
+      <li><strong>Learned:</strong> wiring routing and weight balance needed a redesign</li>
+    </ul>
+  </section>
+
+  <!-- V2 -->
+  <section class="section">
+    <div class="sec-tag">// 03 — Iteration V2</div>
+    <h2>The flying build</h2>
+    <p>V2 integrated everything into a clean, balanced airframe with the drop mechanism mounted underneath. Cable management was tightened up, the center of gravity was corrected, and the payload release was wired to a dedicated channel for autonomous triggering.</p>
+    <div class="media">
+      <div class="ph"><b>Add your V2 / flying photo</b>Replace with: &lt;img src="drone-v2.jpg" alt="V2 assembled drone"&gt;</div>
+    </div>
+  </section>
+
+  <!-- LEG DESIGN -->
+  <section class="section">
+    <div class="sec-tag">// 04 — Mechanical Design</div>
+    <h2>Topology-optimized legs</h2>
+    <p>The landing legs went through several iterations in SolidWorks. The final design uses topology optimization to cut weight while keeping enough stiffness to survive repeated landings — the lattice cutouts remove material where the FEA showed low stress.</p>
+    <div class="two">
+      <div class="media"><div class="ph"><b>CAD render</b>&lt;img src="leg-cad.jpg"&gt;</div></div>
+      <div class="media"><div class="ph"><b>FEA / printed part</b>&lt;img src="leg-fea.jpg"&gt;</div></div>
+    </div>
+    <ul class="points" style="margin-top:24px">
+      <li><strong>Tools:</strong> SolidWorks modeling + FEA stress analysis</li>
+      <li><strong>Process:</strong> topology optimization → lattice cutouts on low-stress regions</li>
+      <li><strong>Fabrication:</strong> 3D printed, iterated to the final geometry</li>
+    </ul>
+  </section>
+
+  <!-- VIDEO -->
+  <section class="section">
+    <div class="sec-tag">// 05 — In Flight</div>
+    <h2>Flight demo</h2>
+    <p>Drop in your flight video here to show the autonomous waypoint run and payload release.</p>
+    <div class="video-ph">
+      <div class="play">▶</div>
+      <p>Add flight video — swap this block for a &lt;video&gt; or YouTube embed</p>
+    </div>
+  </section>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-cta">Like this project?<br><a href="mailto:your@email.com">Let's talk →</a></div>
+    <div class="footer-links">
+      <a href="index.html#work">← All Projects</a>
+      <a href="https://github.com/DamianSzczykutowicz" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://linkedin.com/in/your-handle" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="mailto:your@email.com">Email</a>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Damian Szczykutowicz</span>
+      <span>Autonomous GPS Payload Drone</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
