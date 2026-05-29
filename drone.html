@@ -177,8 +177,9 @@
   <div class="specs">
     <div class="spec"><div class="k">Budget</div><div class="v">&lt;$200<small>total build</small></div></div>
     <div class="spec"><div class="k">Navigation</div><div class="v">GPS<small>autonomous</small></div></div>
-    <div class="spec"><div class="k">Frame</div><div class="v">F450<small>custom legs</small></div></div>
-    <div class="spec"><div class="k">Payload</div><div class="v">Drop<small>servo release</small></div></div>
+    <div class="spec"><div class="k">Flight Stack</div><div class="v">ArduPilot<small>STM32 FC</small></div></div>
+    <div class="spec"><div class="k">Frame</div><div class="v">3D Printed<small>in-house</small></div></div>
+    <div class="spec"><div class="k">Drop Mech</div><div class="v">CNC Al<small>machined</small></div></div>
   </div>
 
   <!-- OVERVIEW -->
@@ -186,21 +187,21 @@
     <div class="sec-tag">// 01 — Overview</div>
     <h2>The goal</h2>
     <p>The objective was to build a low-cost autonomous delivery platform: a drone that could take off, fly to a user-defined GPS waypoint, and accurately drop a small payload — all on a tight student budget. The challenge was hitting reliable autonomous behavior and a clean mechanical design without expensive off-the-shelf hardware.</p>
-    <p>I owned the <strong>structural design</strong> and <strong>system integration</strong> — from the airframe and custom landing legs to the wiring, drop mechanism, and onboard companion computer running the vision pipeline.</p>
+    <p>I owned the <strong>structural design</strong> and <strong>system integration</strong> — starting from an off-the-shelf frame to prove out the concept, then redesigning and 3D printing the entire airframe myself, machining the drop mechanism from aluminum, and wiring up the STM32 flight controller running ArduPilot.</p>
   </section>
 
   <!-- V1 -->
   <section class="section">
     <div class="sec-tag">// 02 — Iteration V1</div>
     <h2>Proving the electronics</h2>
-    <p>The first build focused on getting the core flight stack working on the bench — flight controller, GPS module, power distribution, and motors — before committing to a final structure. V1 proved the autonomy logic and let me debug wiring and signal issues in a controlled setting.</p>
+    <p>The first build ran on an <strong>off-the-shelf frame</strong> so I could get the core flight stack working before committing to a custom structure — flight controller, GPS module, power distribution, and motors. V1 proved out the autonomy logic and let me debug wiring and signal issues in a controlled setting.</p>
     <div class="media">
       <div class="ph"><b>Add your V1 bench photo</b>Replace with: &lt;img src="drone-v1.jpg" alt="V1 bench build"&gt;</div>
     </div>
     <ul class="points">
-      <li><strong>Validated:</strong> flight controller + GPS lock and waypoint hold</li>
+      <li><strong>Validated:</strong> STM32 flight controller + GPS lock and waypoint hold under ArduPilot</li>
       <li><strong>Validated:</strong> power distribution and motor arming</li>
-      <li><strong>Learned:</strong> wiring routing and weight balance needed a redesign</li>
+      <li><strong>Decided:</strong> go fully custom — 3D print the airframe from scratch</li>
     </ul>
   </section>
 
@@ -208,7 +209,7 @@
   <section class="section">
     <div class="sec-tag">// 03 — Iteration V2</div>
     <h2>The flying build</h2>
-    <p>V2 integrated everything into a clean, balanced airframe with the drop mechanism mounted underneath. Cable management was tightened up, the center of gravity was corrected, and the payload release was wired to a dedicated channel for autonomous triggering.</p>
+    <p>For V2 I moved off the stock frame entirely and <strong>3D printed the full airframe in-house</strong>. The drop mechanism was <strong>CNC-machined from aluminum</strong> for strength and a clean, repeatable release, mounted underneath and wired to a dedicated channel on the STM32 flight controller for autonomous triggering under ArduPilot.</p>
     <div class="media">
       <div class="ph"><b>Add your V2 / flying photo</b>Replace with: &lt;img src="drone-v2.jpg" alt="V2 assembled drone"&gt;</div>
     </div>
@@ -217,16 +218,17 @@
   <!-- LEG DESIGN -->
   <section class="section">
     <div class="sec-tag">// 04 — Mechanical Design</div>
-    <h2>Topology-optimized legs</h2>
-    <p>The landing legs went through several iterations in SolidWorks. The final design uses topology optimization to cut weight while keeping enough stiffness to survive repeated landings — the lattice cutouts remove material where the FEA showed low stress.</p>
+    <h2>Built from scratch</h2>
+    <p>Rather than relying on the stock frame, I 3D printed the entire airframe in-house. The landing legs went through several iterations in SolidWorks, using topology optimization to cut weight while keeping enough stiffness to survive repeated landings — the lattice cutouts remove material where the FEA showed low stress.</p>
+    <p>The <strong>drop mechanism</strong> was CNC-machined from aluminum for durability and a precise, repeatable release — the one part that needed metal-grade strength and tight tolerances.</p>
     <div class="two">
       <div class="media"><div class="ph"><b>CAD render</b>&lt;img src="leg-cad.jpg"&gt;</div></div>
-      <div class="media"><div class="ph"><b>FEA / printed part</b>&lt;img src="leg-fea.jpg"&gt;</div></div>
+      <div class="media"><div class="ph"><b>CNC drop mech / FEA</b>&lt;img src="drop-mech.jpg"&gt;</div></div>
     </div>
     <ul class="points" style="margin-top:24px">
-      <li><strong>Tools:</strong> SolidWorks modeling + FEA stress analysis</li>
-      <li><strong>Process:</strong> topology optimization → lattice cutouts on low-stress regions</li>
-      <li><strong>Fabrication:</strong> 3D printed, iterated to the final geometry</li>
+      <li><strong>3D printing:</strong> full airframe printed in-house, iterated to final geometry</li>
+      <li><strong>CNC machining:</strong> aluminum drop mechanism for strength and clean release</li>
+      <li><strong>Design &amp; analysis:</strong> topology-optimized legs in SolidWorks + ANSYS FEA</li>
     </ul>
   </section>
 
@@ -246,12 +248,13 @@
 <!-- FOOTER -->
 <footer>
   <div class="footer-inner">
-    <div class="footer-cta">Like this project?<br><a href="mailto:your@email.com">Let's talk →</a></div>
+    <div class="footer-cta">Like this project?<br><a href="mailto:dszczykut1@gmail.com">Let's talk →</a></div>
     <div class="footer-links">
       <a href="index.html#work">← All Projects</a>
       <a href="https://github.com/DamianSzczykutowicz" target="_blank" rel="noopener">GitHub</a>
-      <a href="https://linkedin.com/in/your-handle" target="_blank" rel="noopener">LinkedIn</a>
-      <a href="mailto:your@email.com">Email</a>
+      <a href="https://www.linkedin.com/in/damian-szczykutowicz/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="mailto:dszczykut1@gmail.com">dszczykut1@gmail.com</a>
+      <a href="tel:+19084163130">908-416-3130</a>
     </div>
     <div class="footer-bottom">
       <span>© 2026 Damian Szczykutowicz</span>
