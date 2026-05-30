@@ -108,6 +108,7 @@
     display:flex;align-items:center;justify-content:center;
   }
   .media img{width:100%;height:100%;object-fit:cover;display:block}
+  .media.portrait{aspect-ratio:4/5;max-width:440px;margin-left:auto;margin-right:auto}
 
   .two{display:grid;grid-template-columns:1fr 1fr;gap:24px}
   @media(max-width:720px){.two{grid-template-columns:1fr}}
@@ -132,6 +133,7 @@
     display:flex;align-items:center;justify-content:center;color:var(--accent);font-size:1.3rem;
   }
   .video-ph p{font-family:'IBM Plex Mono',monospace;font-size:.82rem;letter-spacing:.04em}
+  .flight-video{width:100%;aspect-ratio:16/9;border:1px solid var(--line);border-radius:8px;background:#000;display:block;margin-top:28px}
 
   /* FOOTER */
   footer{border-top:1px solid var(--line);margin-top:30px;padding:60px clamp(20px,5vw,48px)}
@@ -195,8 +197,8 @@
     <div class="sec-tag">// 02 — Iteration V1</div>
     <h2>Proving the electronics</h2>
     <p>The first build ran on an <strong>off-the-shelf frame</strong> so I could get the core flight stack working before committing to a custom structure — flight controller, GPS module, power distribution, and motors. V1 proved out the autonomy logic and let me debug wiring and signal issues in a controlled setting.</p>
-    <div class="media">
-      <div class="ph"><b>Add your V1 bench photo</b>Replace with: &lt;img src="drone-v1.jpg" alt="V1 bench build"&gt;</div>
+    <div class="media portrait">
+      <img src="drone-v1.jpg" alt="V1 bench build — exposed electronics, flight controller, GPS and wiring on the workbench">
     </div>
     <ul class="points">
       <li><strong>Validated:</strong> STM32 flight controller + GPS lock and waypoint hold under ArduPilot</li>
@@ -208,21 +210,31 @@
   <!-- V2 -->
   <section class="section">
     <div class="sec-tag">// 03 — Iteration V2</div>
-    <h2>The flying build</h2>
-    <p>For V2 I moved off the stock frame entirely and <strong>3D printed the full airframe in-house</strong>. The drop mechanism was <strong>CNC-machined from aluminum</strong> for strength and a clean, repeatable release, mounted underneath and wired to a dedicated channel on the STM32 flight controller for autonomous triggering under ArduPilot.</p>
+    <h2>First good flights</h2>
+    <p>For V2 I designed and <strong>3D-printed my own landing legs</strong> to replace the stock ones, giving the aircraft a taller, more stable stance for takeoff and landing. This was the first version to <strong>fly well</strong> — stable hover and clean autonomous waypoint holds — which validated the full flight and navigation stack on a real airframe before I committed to a fully custom build.</p>
     <div class="media">
-      <div class="ph"><b>Add your V2 / flying photo</b>Replace with: &lt;img src="drone-v2.jpg" alt="V2 assembled drone"&gt;</div>
+      <img src="drone-v2.jpg" alt="V2 quadcopter with custom 3D-printed white landing legs on the stock red frame, out in the grass">
+    </div>
+  </section>
+
+  <!-- V3 -->
+  <section class="section">
+    <div class="sec-tag">// 04 — Iteration V3</div>
+    <h2>The final build</h2>
+    <p>V3 is the version where I <strong>designed and 3D-printed the entire airframe myself</strong> — the topology-optimized arms and landing legs you see here, all modeled in SolidWorks and printed in-house. The only off-the-shelf parts left are the motors, props, GPS and electronics; every structural component is my own design. This is the final flying configuration.</p>
+    <div class="media">
+      <img src="drone-v3.jpg" alt="V3 final build — fully custom 3D-printed quadcopter with topology-optimized red and white arms, in a field">
     </div>
   </section>
 
   <!-- LEG DESIGN -->
   <section class="section">
-    <div class="sec-tag">// 04 — Mechanical Design</div>
+    <div class="sec-tag">// 05 — Mechanical Design</div>
     <h2>Built from scratch</h2>
     <p>Rather than relying on the stock frame, I 3D printed the entire airframe in-house. The landing legs went through several iterations in SolidWorks, using topology optimization to cut weight while keeping enough stiffness to survive repeated landings — the lattice cutouts remove material where the FEA showed low stress.</p>
     <p>The <strong>drop mechanism</strong> was CNC-machined from aluminum for durability and a precise, repeatable release — the one part that needed metal-grade strength and tight tolerances.</p>
     <div class="two">
-      <div class="media"><div class="ph"><b>CAD render</b>&lt;img src="leg-cad.jpg"&gt;</div></div>
+      <div class="media"><img src="drone-arms.jpg" alt="Close-up of the topology-optimized 3D-printed arms showing the lattice cutouts"></div>
       <div class="media"><div class="ph"><b>CNC drop mech / FEA</b>&lt;img src="drop-mech.jpg"&gt;</div></div>
     </div>
     <ul class="points" style="margin-top:24px">
@@ -234,13 +246,13 @@
 
   <!-- VIDEO -->
   <section class="section">
-    <div class="sec-tag">// 05 — In Flight</div>
+    <div class="sec-tag">// 06 — In Flight</div>
     <h2>Flight demo</h2>
-    <p>Drop in your flight video here to show the autonomous waypoint run and payload release.</p>
-    <div class="video-ph">
-      <div class="play">▶</div>
-      <p>Add flight video — swap this block for a &lt;video&gt; or YouTube embed</p>
-    </div>
+    <p>An autonomous flight test in the field — takeoff, stable hover, and waypoint navigation on the fully custom V3 airframe.</p>
+    <video class="flight-video" controls preload="metadata" playsinline poster="drone-flight-poster.jpg">
+      <source src="drone-flight.mp4" type="video/mp4">
+      Your browser doesn't support embedded video — <a href="drone-flight.mp4">download the clip</a> instead.
+    </video>
   </section>
 
 </div>
