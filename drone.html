@@ -134,6 +134,9 @@
   }
   .video-ph p{font-family:'IBM Plex Mono',monospace;font-size:.82rem;letter-spacing:.04em}
   .flight-video{width:100%;aspect-ratio:16/9;border:1px solid var(--line);border-radius:8px;background:#000;display:block;margin-top:28px}
+  .shot{margin:28px 0 0;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--bg-soft)}
+  .shot img{width:100%;height:auto;display:block}
+  .caption{font-family:'IBM Plex Mono',monospace;font-size:.78rem;color:var(--faint);letter-spacing:.02em;margin:10px 0 0;max-width:760px}
 
   /* FOOTER */
   footer{border-top:1px solid var(--line);margin-top:30px;padding:60px clamp(20px,5vw,48px)}
@@ -167,7 +170,7 @@
   <section class="hero">
     <div class="eyebrow">Project 001 · 2024–2025</div>
     <h1>Autonomous GPS<br>Payload Drone</h1>
-    <p class="lede">A fully autonomous quadcopter that navigates to a target <strong>GPS coordinate</strong> and releases a payload on the mark — designed, built, and flight-tested for <strong>under $200</strong>.</p>
+    <p class="lede">A quadcopter that flies a <strong>GPS waypoint mission</strong>, drops a payload on target, and returns home — fully autonomous, for <strong>under $200</strong>. I designed the airframe and release mechanism and integrated the full flight stack.</p>
 
     <!-- HERO IMAGE: replace the .ph block with <img src="drone-hero.jpg" alt="Drone"> -->
     <div class="hero-media">
@@ -178,32 +181,31 @@
   <!-- SPECS -->
   <div class="specs">
     <div class="spec"><div class="k">Budget</div><div class="v">&lt;$200<small>total build</small></div></div>
-    <div class="spec"><div class="k">Navigation</div><div class="v">GPS<small>autonomous</small></div></div>
+    <div class="spec"><div class="k">Navigation</div><div class="v">GPS<small>waypoint mission</small></div></div>
     <div class="spec"><div class="k">Flight Stack</div><div class="v">ArduPilot<small>STM32 FC</small></div></div>
-    <div class="spec"><div class="k">Frame</div><div class="v">3D Printed<small>in-house</small></div></div>
-    <div class="spec"><div class="k">Drop Mech</div><div class="v">CNC Al<small>machined</small></div></div>
+    <div class="spec"><div class="k">Airframe</div><div class="v">3D Printed<small>topology-optimized</small></div></div>
+    <div class="spec"><div class="k">Drop Mech</div><div class="v">CNC Al<small>servo-actuated</small></div></div>
   </div>
 
   <!-- OVERVIEW -->
   <section class="section">
     <div class="sec-tag">// 01 — Overview</div>
     <h2>The goal</h2>
-    <p>The objective was to build a low-cost autonomous delivery platform: a drone that could take off, fly to a user-defined GPS waypoint, and accurately drop a small payload — all on a tight student budget. The challenge was hitting reliable autonomous behavior and a clean mechanical design without expensive off-the-shelf hardware.</p>
-    <p>I owned the <strong>structural design</strong> and <strong>system integration</strong> — starting from an off-the-shelf frame to prove out the concept, then redesigning and 3D printing the entire airframe myself, machining the drop mechanism from aluminum, and wiring up the STM32 flight controller running ArduPilot.</p>
+    <p>Build a low-cost autonomous delivery drone — take off, fly to GPS coordinates, drop a payload on target, and return to land, no pilot input after arming. I owned the structural design and system integration across three iterations, from a stock test rig to a <strong>fully custom 3D-printed airframe</strong>, plus the ArduPilot / STM32 flight stack and a servo-actuated drop mechanism.</p>
   </section>
 
   <!-- V1 -->
   <section class="section">
     <div class="sec-tag">// 02 — Iteration V1</div>
     <h2>Proving the electronics</h2>
-    <p>The first build ran on an <strong>off-the-shelf frame</strong> so I could get the core flight stack working before committing to a custom structure — flight controller, GPS module, power distribution, and motors. V1 proved out the autonomy logic and let me debug wiring and signal issues in a controlled setting.</p>
+    <p>Started on a stock frame to nail the electronics first — flight controller, GPS, power, ESCs, and motors — and debug wiring on the bench instead of in the air.</p>
     <div class="media portrait">
       <img src="drone-v1.jpg" alt="V1 bench build — exposed electronics, flight controller, GPS and wiring on the workbench">
     </div>
     <ul class="points">
-      <li><strong>Validated:</strong> STM32 flight controller + GPS lock and waypoint hold under ArduPilot</li>
-      <li><strong>Validated:</strong> power distribution and motor arming</li>
-      <li><strong>Decided:</strong> go fully custom — 3D print the airframe from scratch</li>
+      <li><strong>Flight stack up:</strong> STM32 controller with GPS lock and stable waypoint hold under ArduPilot</li>
+      <li><strong>Power &amp; motors:</strong> validated power distribution, ESC calibration, and motor arming</li>
+      <li><strong>Decision:</strong> commit to a fully custom, 3D-printed airframe</li>
     </ul>
   </section>
 
@@ -211,7 +213,7 @@
   <section class="section">
     <div class="sec-tag">// 03 — Iteration V2</div>
     <h2>First good flights</h2>
-    <p>For V2 I designed and <strong>3D-printed my own landing legs</strong> to replace the stock ones, giving the aircraft a taller, more stable stance for takeoff and landing. This was the first version to <strong>fly well</strong> — stable hover and clean autonomous waypoint holds — which validated the full flight and navigation stack on a real airframe before I committed to a fully custom build.</p>
+    <p>Designed and <strong>3D-printed my own landing gear</strong> for a taller, more stable stance. First version to fly genuinely well — steady hover and clean GPS waypoint holds.</p>
     <div class="media">
       <img src="drone-v2.jpg" alt="V2 quadcopter with custom 3D-printed white landing legs on the stock red frame, out in the grass">
     </div>
@@ -221,7 +223,7 @@
   <section class="section">
     <div class="sec-tag">// 04 — Iteration V3</div>
     <h2>The final build</h2>
-    <p>V3 is the version where I <strong>designed and 3D-printed the entire airframe myself</strong> — the topology-optimized arms and landing legs you see here, all modeled in SolidWorks and printed in-house. The only off-the-shelf parts left are the motors, props, GPS and electronics; every structural component is my own design. This is the final flying configuration.</p>
+    <p>Designed and <strong>3D-printed the entire airframe</strong> — topology-optimized arms and legs in SolidWorks. Everything structural is mine; only the motors, props, GPS, and electronics are off-the-shelf. This is the build that flew the mission below.</p>
     <div class="media">
       <img src="drone-v3.jpg" alt="V3 final build — fully custom 3D-printed quadcopter with topology-optimized red and white arms, in a field">
     </div>
@@ -231,28 +233,33 @@
   <section class="section">
     <div class="sec-tag">// 05 — Mechanical Design</div>
     <h2>Built from scratch</h2>
-    <p>Rather than relying on the stock frame, I 3D printed the entire airframe in-house. The landing legs went through several iterations in SolidWorks, using topology optimization to cut weight while keeping enough stiffness to survive repeated landings — the lattice cutouts remove material where the FEA showed low stress.</p>
-    <p>The <strong>drop mechanism</strong> was CNC-machined from aluminum for durability and a precise, repeatable release — the one part that needed metal-grade strength and tight tolerances.</p>
+    <p>I topology-optimized the load-bearing parts in SolidWorks with ANSYS FEA — the lattice cutouts pull material from low-stress regions to cut weight while keeping the structure stiff.</p>
+    <p>I designed the aluminum <strong>drop mechanism</strong> in CAD and had it <strong>CNC-machined by PCBWay</strong>; a servo on a dedicated flight-controller channel fires the release as a mission command.</p>
     <div class="two">
       <div class="media"><img src="drone-arms.jpg" alt="Close-up of the topology-optimized 3D-printed arms showing the lattice cutouts"></div>
       <div class="media"><div class="ph"><b>CNC drop mech / FEA</b>&lt;img src="drop-mech.jpg"&gt;</div></div>
     </div>
     <ul class="points" style="margin-top:24px">
-      <li><strong>3D printing:</strong> full airframe printed in-house, iterated to final geometry</li>
-      <li><strong>CNC machining:</strong> aluminum drop mechanism for strength and clean release</li>
-      <li><strong>Design &amp; analysis:</strong> topology-optimized legs in SolidWorks + ANSYS FEA</li>
+      <li><strong>Design &amp; analysis:</strong> topology-optimized arms and legs in SolidWorks + ANSYS FEA</li>
+      <li><strong>3D printing:</strong> full airframe printed and iterated in-house</li>
+      <li><strong>Drop mechanism:</strong> CAD-designed aluminum part, CNC-machined by PCBWay</li>
     </ul>
   </section>
 
   <!-- VIDEO -->
   <section class="section">
     <div class="sec-tag">// 06 — In Flight</div>
-    <h2>Flight demo</h2>
-    <p>An autonomous flight test in the field — takeoff, stable hover, and waypoint navigation on the fully custom V3 airframe.</p>
+    <h2>Autonomous mission</h2>
+    <p>The whole flight is autonomous, planned in <strong>Mission Planner</strong>: take off, hit the GPS waypoints, fire the servo to <strong>drop the payload</strong>, then <strong>return to launch</strong> and land. No stick input after arming.</p>
+    <div class="shot">
+      <img src="drone-mission.jpg" alt="Mission Planner waypoint plan over a field: TAKEOFF, four GPS waypoints at 5 m, a DO_SET_SERVO payload release with a short delay and servo reset, then RETURN_TO_LAUNCH">
+    </div>
+    <p class="caption">The exact mission flown below: TAKEOFF → WP2–WP5 → DO_SET_SERVO (payload drop) → DELAY → servo reset → RETURN_TO_LAUNCH.</p>
     <video class="flight-video" controls preload="metadata" playsinline poster="drone-flight-poster.jpg">
       <source src="drone-flight.mp4" type="video/mp4">
       Your browser doesn't support embedded video — <a href="drone-flight.mp4">download the clip</a> instead.
     </video>
+    <p class="caption">Launch → waypoint navigation → payload drop → return to launch.</p>
   </section>
 
 </div>
