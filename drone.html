@@ -233,14 +233,13 @@
   <section class="section">
     <div class="sec-tag">// 05 — Mechanical Design</div>
     <h2>Built from scratch</h2>
-    <p>I topology-optimized the load-bearing parts in SolidWorks with ANSYS FEA — the lattice cutouts pull material from low-stress regions to cut weight while keeping the structure stiff.</p>
+    <p>I topology-optimized the load-bearing parts in SolidWorks, then validated the final arm with FEA — the lattice cutouts pull material from low-stress regions to cut weight while keeping the structure stiff.</p>
     <p>I designed the aluminum <strong>drop mechanism</strong> in CAD and had it <strong>CNC-machined by PCBWay</strong>; a servo on a dedicated flight-controller channel fires the release as a mission command.</p>
-    <div class="two">
-      <div class="media"><img src="drone-arms.jpg" alt="Close-up of the topology-optimized 3D-printed arms showing the lattice cutouts"></div>
-      <div class="media"><div class="ph"><b>CNC drop mech / FEA</b>&lt;img src="drop-mech.jpg"&gt;</div></div>
-    </div>
+    <div class="media"><img src="drone-arms.jpg" alt="Close-up of the topology-optimized 3D-printed arms showing the lattice cutouts"></div>
+    <div class="shot"><img src="drone-fea.jpg" alt="SOLIDWORKS Simulation displacement plot of the arm under 20 N thrust — max tip deflection ~7.1 mm, fading to zero at the fixed root"></div>
+    <p class="caption">SOLIDWORKS Simulation — 20 N thrust at the motor mount (well above hover). Peak von Mises ≈ 16.7 MPa, max tip deflection ≈ 7.1 mm, min FOS ≈ 3.4.</p>
     <ul class="points" style="margin-top:24px">
-      <li><strong>Design &amp; analysis:</strong> topology-optimized arms and legs in SolidWorks + ANSYS FEA</li>
+      <li><strong>Design &amp; analysis:</strong> topology-optimized arms and legs in SolidWorks, FEA-validated</li>
       <li><strong>3D printing:</strong> full airframe printed and iterated in-house</li>
       <li><strong>Drop mechanism:</strong> CAD-designed aluminum part, CNC-machined by PCBWay</li>
     </ul>
