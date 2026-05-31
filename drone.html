@@ -137,6 +137,7 @@
   .shot{margin:28px 0 0;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--bg-soft)}
   .shot img{width:100%;height:auto;display:block}
   .caption{font-family:'IBM Plex Mono',monospace;font-size:.78rem;color:var(--faint);letter-spacing:.02em;margin:10px 0 0;max-width:760px}
+  .dropmech-video{display:block;width:100%;max-width:340px;margin:28px auto 0;aspect-ratio:9/16;border:1px solid var(--line);border-radius:8px;background:#000}
 
   /* FOOTER */
   footer{border-top:1px solid var(--line);margin-top:30px;padding:60px clamp(20px,5vw,48px)}
@@ -235,6 +236,11 @@
     <h2>Built from scratch</h2>
     <p>I topology-optimized the load-bearing parts in SolidWorks, then validated the final arm with FEA — the lattice cutouts pull material from low-stress regions to cut weight while keeping the structure stiff.</p>
     <p>I designed the aluminum <strong>drop mechanism</strong> in CAD and had it <strong>CNC-machined by PCBWay</strong>; a servo on a dedicated flight-controller channel fires the release as a mission command.</p>
+    <video class="dropmech-video" controls preload="metadata" playsinline poster="drone-dropmech-poster.jpg">
+      <source src="drone-dropmech.mp4" type="video/mp4">
+      Your browser doesn't support embedded video — <a href="drone-dropmech.mp4">download the clip</a> instead.
+    </video>
+    <p class="caption" style="text-align:center;max-width:340px;margin-left:auto;margin-right:auto">The servo-actuated aluminum release firing on the bench.</p>
     <div class="media"><img src="drone-arms.jpg" alt="Close-up of the topology-optimized 3D-printed arms showing the lattice cutouts"></div>
     <div class="shot"><img src="drone-fea.jpg" alt="SOLIDWORKS Simulation displacement plot of the arm under 20 N thrust — max tip deflection ~7.1 mm, fading to zero at the fixed root"></div>
     <p class="caption">SOLIDWORKS Simulation — 20 N thrust at the motor mount (well above hover). Peak von Mises ≈ 16.7 MPa, max tip deflection ≈ 7.1 mm, min FOS ≈ 3.4.</p>
