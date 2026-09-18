@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Long-Range VTOL Quadplane — Damian Szczykutowicz</title>
+<meta name="description" content="A 3D-printed long-range VTOL quadplane: vertical takeoff on four rotors, wing-borne cruise on a pusher prop. My own airframe design, tuned in ArduPilot, flight-tested through transition.">
+<meta name="theme-color" content="#0d0f12">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Long-Range VTOL Quadplane">
+<meta property="og:description" content="A 3D-printed VTOL quadplane: vertical takeoff, wing-borne cruise, ArduPilot QuadPlane, flight-tested through transition.">
+<meta property="og:image" content="https://damianszczykutowicz.github.io/Portfolio/vtol-hero.jpg">
+<meta property="og:url" content="https://damianszczykutowicz.github.io/Portfolio/vtol.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Long-Range VTOL Quadplane">
+<meta name="twitter:description" content="A 3D-printed VTOL quadplane: vertical takeoff, wing-borne cruise, ArduPilot QuadPlane, flight-tested through transition.">
+<meta name="twitter:image" content="https://damianszczykutowicz.github.io/Portfolio/vtol-hero.jpg">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230d0f12'/%3E%3Cpath d='M9 9L23 23M23 9L9 23' stroke='%235fb3c9' stroke-width='2'/%3E%3Cg fill='%23ff7a45'%3E%3Ccircle cx='9' cy='9' r='3.2'/%3E%3Ccircle cx='23' cy='9' r='3.2'/%3E%3Ccircle cx='9' cy='23' r='3.2'/%3E%3Ccircle cx='23' cy='23' r='3.2'/%3E%3C/g%3E%3Ccircle cx='16' cy='16' r='2.6' fill='%23e8eaed'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0d0f12;--bg-soft:#15181d;--panel:#1a1e24;--line:#2a2f37;
+    --text:#e8eaed;--muted:#9aa1ab;--faint:#646b76;
+    --accent:#ff7a45;--blue:#5fb3c9;--maxw:1000px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);color:var(--text);
+    font-family:'IBM Plex Sans',sans-serif;line-height:1.65;
+    -webkit-font-smoothing:antialiased;overflow-x:hidden;
+    background-image:
+      linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);
+    background-size:32px 32px;
+  }
+  ::selection{background:var(--accent);color:#0d0f12}
+  a{color:inherit}
+
+  /* NAV */
+  nav{
+    position:fixed;top:0;left:0;right:0;z-index:50;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:18px clamp(20px,5vw,48px);
+    backdrop-filter:blur(12px);background:rgba(13,15,18,.85);
+    border-bottom:1px solid var(--line);
+  }
+  .brand{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:.9rem;letter-spacing:.04em;text-decoration:none}
+  .brand span{color:var(--accent)}
+  .back{
+    font-family:'IBM Plex Mono',monospace;font-size:.78rem;letter-spacing:.05em;
+    text-transform:uppercase;color:var(--muted);text-decoration:none;
+    display:inline-flex;align-items:center;gap:8px;transition:color .2s;
+  }
+  .back:hover{color:var(--accent)}
+  .back span{transition:transform .2s}
+  .back:hover span{transform:translateX(-4px)}
+
+  /* WRAP */
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(20px,5vw,48px)}
+
+  /* HERO */
+  .hero{padding:140px 0 50px}
+  .eyebrow{
+    font-family:'IBM Plex Mono',monospace;font-size:.78rem;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--accent);margin-bottom:20px;
+    display:flex;align-items:center;gap:12px;
+  }
+  .eyebrow::before{content:"";width:32px;height:1px;background:var(--accent)}
+  .hero h1{
+    font-family:'Bricolage Grotesque',sans-serif;font-weight:800;
+    font-size:clamp(2.2rem,6vw,4rem);line-height:1.02;letter-spacing:-.02em;margin-bottom:22px;
+  }
+  .hero .lede{font-size:1.15rem;color:var(--muted);max-width:680px}
+  .hero .lede strong{color:var(--text);font-weight:600}
+
+  /* HERO IMAGE */
+  .hero-media{
+    margin:40px 0;border:1px solid var(--line);border-radius:8px;overflow:hidden;
+    aspect-ratio:16/10;background:
+      radial-gradient(circle at 50% 40%,rgba(255,122,69,.10),transparent 60%),var(--bg-soft);
+    display:flex;align-items:center;justify-content:center;position:relative;
+  }
+  .hero-media img{width:100%;height:100%;object-fit:cover;object-position:50% 45%;display:block}
+
+  /* SPECS */
+  .specs{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+    gap:1px;background:var(--line);border:1px solid var(--line);
+    border-radius:6px;overflow:hidden;margin:10px 0 70px;
+  }
+  .spec{background:var(--bg-soft);padding:22px}
+  .spec .k{font-family:'IBM Plex Mono',monospace;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);margin-bottom:8px}
+  .spec .v{font-family:'Bricolage Grotesque',sans-serif;font-size:1.5rem;font-weight:600}
+  .spec .v small{font-size:.78rem;color:var(--accent);font-family:'IBM Plex Mono',monospace;display:block;margin-top:2px;font-weight:400}
+
+  /* CONTENT SECTIONS */
+  .section{padding:0 0 70px}
+  .sec-tag{
+    font-family:'IBM Plex Mono',monospace;font-size:.75rem;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--accent);margin-bottom:14px;
+  }
+  .section h2{
+    font-family:'Bricolage Grotesque',sans-serif;font-weight:600;
+    font-size:clamp(1.5rem,3.5vw,2.2rem);letter-spacing:-.01em;margin-bottom:18px;
+  }
+  .section p{color:var(--muted);font-size:1.05rem;margin-bottom:16px;max-width:760px}
+  .section p strong{color:var(--text);font-weight:600}
+
+  .media{
+    margin:28px 0;border:1px solid var(--line);border-radius:8px;overflow:hidden;
+    aspect-ratio:16/9;background:var(--bg-soft);
+    display:flex;align-items:center;justify-content:center;
+  }
+  .media img{width:100%;height:100%;object-fit:cover;display:block}
+
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+  @media(max-width:720px){.two{grid-template-columns:1fr}}
+  .two .media{margin:0;aspect-ratio:4/5}
+
+  ul.points{list-style:none;margin:8px 0 0;max-width:760px}
+  ul.points li{
+    color:var(--muted);padding:10px 0 10px 26px;position:relative;border-bottom:1px solid var(--line);
+  }
+  ul.points li:last-child{border-bottom:none}
+  ul.points li::before{content:"▸";position:absolute;left:0;color:var(--accent)}
+  ul.points li strong{color:var(--text);font-weight:600}
+
+  /* callout for the honest engineering note */
+  .note{
+    border:1px solid var(--line);border-left:3px solid var(--accent);
+    background:var(--bg-soft);border-radius:0 6px 6px 0;
+    padding:18px 22px;margin:22px 0 0;max-width:760px;
+  }
+  .note b{color:var(--text)}
+  .note p{margin:0;font-size:.98rem}
+
+  /* VIDEO */
+  .shot{margin:28px 0 0;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--bg-soft)}
+  .shot img{width:100%;height:auto;display:block}
+  .caption{font-family:'IBM Plex Mono',monospace;font-size:.78rem;color:var(--faint);letter-spacing:.02em;margin:10px 0 0;max-width:760px}
+  .portrait-video{display:block;width:100%;max-width:320px;margin:28px auto 0;aspect-ratio:9/16;border:1px solid var(--line);border-radius:8px;background:#000}
+
+  /* FOOTER */
+  footer{border-top:1px solid var(--line);margin-top:30px;padding:60px clamp(20px,5vw,48px)}
+  .footer-inner{max-width:var(--maxw);margin:0 auto}
+  .footer-cta{
+    font-family:'Bricolage Grotesque',sans-serif;font-weight:800;
+    font-size:clamp(1.8rem,5vw,3rem);line-height:1.05;letter-spacing:-.02em;margin-bottom:28px;
+  }
+  .footer-cta a{text-decoration:none;transition:color .2s}
+  .footer-cta a:hover{color:var(--accent)}
+  .footer-links{display:flex;gap:26px;flex-wrap:wrap;margin-bottom:36px}
+  .footer-links a{font-family:'IBM Plex Mono',monospace;font-size:.82rem;color:var(--muted);text-decoration:none;transition:color .2s}
+  .footer-links a:hover{color:var(--accent)}
+  .footer-bottom{
+    display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
+    font-family:'IBM Plex Mono',monospace;font-size:.72rem;color:var(--faint);
+    padding-top:22px;border-top:1px solid var(--line);
+  }
+
+  /* reduced motion */
+  @media (prefers-reduced-motion: reduce){
+    *,*::before,*::after{animation-duration:.001ms!important;animation-delay:0ms!important;transition-duration:.001ms!important}
+    html{scroll-behavior:auto}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="brand">DAMIAN<span>.</span>SZCZYKUTOWICZ</a>
+  <a href="index.html#work" class="back"><span>←</span> Back to Work</a>
+</nav>
+
+<div class="wrap">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="eyebrow">Custom Design · VTOL Quadplane</div>
+    <h1>Long-Range VTOL<br>Quadplane</h1>
+    <p class="lede">A fixed-wing aircraft that takes off and lands <strong>vertically</strong> like a quadcopter, then transitions to <strong>efficient forward flight</strong> on a pusher prop. A fully 3D-printed airframe of my own design, tuned in ArduPilot.</p>
+
+    <div class="hero-media">
+      <img src="vtol-hero.jpg" alt="3D-printed VTOL quadplane with twin carbon booms, four lift motors, a V-tail and a pusher nose">
+    </div>
+  </section>
+
+  <!-- SPECS -->
+  <div class="specs">
+    <div class="spec"><div class="k">Config</div><div class="v">4 + 1<small>quad lift + pusher</small></div></div>
+    <div class="spec"><div class="k">All-Up Weight</div><div class="v">~3.2 kg<small>target</small></div></div>
+    <div class="spec"><div class="k">Lift</div><div class="v">T-Motor F90<small>1300KV ×4, DShot600</small></div></div>
+    <div class="spec"><div class="k">Cruise</div><div class="v">SunnySky<small>X2814 pusher, PWM</small></div></div>
+    <div class="spec"><div class="k">Flight Stack</div><div class="v">ArduPilot<small>CoreWing F405 Wing</small></div></div>
+  </div>
+
+  <!-- OVERVIEW -->
+  <section class="section">
+    <div class="sec-tag">// 01 — Overview</div>
+    <h2>The idea</h2>
+    <p>A VTOL quadplane gets the best of both airframes. Four lift rotors let it take off and land straight up, with no runway, so it can launch from anywhere. Once it is airborne, a pusher prop drives it forward and the wing carries the weight, which is far more efficient than hovering, so it covers real distance and endurance.</p>
+    <p>I <strong>designed and 3D-printed the whole airframe</strong>, then handled the propulsion, wiring, and ArduPilot setup, and flew it through the transition.</p>
+    <div class="media"><img src="vtol-top.jpg" alt="Top-down view of the VTOL quadplane showing the twin-boom layout, four lift motors, nose pusher and V-tail"></div>
+  </section>
+
+  <!-- AIRFRAME -->
+  <section class="section">
+    <div class="sec-tag">// 02 — Airframe &amp; 3D Printing</div>
+    <h2>Printed from the ground up</h2>
+    <p>The skins are printed in <strong>PLA Aero</strong>, a lightweight foaming filament, on a Bambu Lab X2D. The motor pods are PETG, bonded to <strong>carbon-fiber booms</strong> with JB Weld so the lift motors sit out on stiff, straight arms. I also redesigned the nose section from scratch in CAD (CadQuery), including a faired variant sized for a Walksnail HD camera.</p>
+    <div class="two">
+      <div class="media"><img src="vtol-wing.jpg" alt="Wing with a carbon-fiber boom and 3D-printed motor mounts clamped along it"></div>
+      <div class="media"><img src="vtol-mounts.jpg" alt="Two carbon-fiber motor booms with printed clamp mounts on the workbench"></div>
+    </div>
+    <ul class="points" style="margin-top:24px">
+      <li><strong>Skins:</strong> PLA Aero, tuned print settings for thin lightweight walls</li>
+      <li><strong>Structure:</strong> PETG motor pods bonded to carbon-fiber booms</li>
+      <li><strong>Nose:</strong> parametric redesign in CadQuery, multiple faired variants</li>
+    </ul>
+  </section>
+
+  <!-- PROPULSION -->
+  <section class="section">
+    <div class="sec-tag">// 03 — Propulsion &amp; Power</div>
+    <h2>Two flight modes, one power system</h2>
+    <p>The vertical phase runs on <strong>four T-Motor F90 lift motors</strong> spinning 7-inch props on DShot600. Forward flight runs on a single <strong>SunnySky pusher</strong> on a PWM channel, split off from the lift group because of the flight controller's timer constraints. A Velox V50A 4-in-1 ESC drives the lift stack off a 4S 10000mAh pack.</p>
+    <div class="media" style="aspect-ratio:4/3"><img src="vtol-esc.jpg" alt="Velox V50A 6S 4-in-1 ESC with freshly soldered motor and power leads"></div>
+    <div class="note">
+      <p><b>Open item:</b> at the ~3.2 kg target weight the lift ESC runs hot, above its rated all-up weight during the hover phase. I'm working the thermal side now: airflow to the ESC and current headroom, since hover is the most demanding part of the flight.</p>
+    </div>
+  </section>
+
+  <!-- FLIGHT -->
+  <section class="section">
+    <div class="sec-tag">// 04 — Flight &amp; Tuning</div>
+    <h2>Making the transition work</h2>
+    <p>It flies as an <strong>ArduPilot QuadPlane</strong>. Bring-up meant sorting the DShot and PWM split across timer groups, correcting the ESC output bitmask, and raising <strong>Q_ASSIST_SPEED to ~13–14 m/s</strong> so the wing takes over at the right point for this airframe's wing loading, well above the usual default. Airspeed comes from an MS4525 sensor, and video is a Walksnail Avatar HD link.</p>
+    <p>The payoff is the clip below: a stable vertical hover, then the handoff to wing-borne flight.</p>
+    <video class="portrait-video" controls preload="metadata" playsinline poster="vtol-flight-poster.jpg">
+      <source src="vtol-flight.mp4" type="video/mp4">
+      Your browser doesn't support embedded video. <a href="vtol-flight.mp4">Download the clip</a> instead.
+    </video>
+    <p class="caption" style="text-align:center;max-width:320px;margin-left:auto;margin-right:auto">Vertical hover during flight testing.</p>
+    <ul class="points" style="margin-top:28px">
+      <li><strong>Controls:</strong> ArduPilot QuadPlane, DShot600 lift + PWM pusher</li>
+      <li><strong>Tuning:</strong> Q_ASSIST_SPEED raised to ~13–14 m/s for the wing loading</li>
+      <li><strong>Sensing:</strong> MS4525 airspeed, GPS, full telemetry</li>
+      <li><strong>Result:</strong> validated the hover and the hover-to-cruise transition in flight</li>
+    </ul>
+  </section>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-cta">Like this project?<br><a href="mailto:dszczykut1@gmail.com">Let's talk →</a></div>
+    <div class="footer-links">
+      <a href="index.html#work">← All Projects</a>
+      <a href="https://github.com/DamianSzczykutowicz" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://www.linkedin.com/in/damian-szczykutowicz/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="mailto:dszczykut1@gmail.com">dszczykut1@gmail.com</a>
+      <a href="tel:+19084163130">908-416-3130</a>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Damian Szczykutowicz</span>
+      <span>Long-Range VTOL Quadplane</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
