@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Damian Szczykutowicz — Mechanical Engineer</title>
+<meta name="description" content="Damian Szczykutowicz — mechanical engineering student and hands-on builder. Autonomous drones, topology-optimized structures, CAD/FEA, and embedded systems.">
+<meta name="theme-color" content="#0d0f12">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Damian Szczykutowicz — Mechanical Engineer">
+<meta property="og:description" content="Autonomous drones, topology-optimized structures, CAD/FEA, and embedded systems.">
+<meta property="og:image" content="https://damianszczykutowicz.github.io/Portfolio/og-cover.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Damian Szczykutowicz — Mechanical Engineer portfolio">
+<meta property="og:url" content="https://damianszczykutowicz.github.io/Portfolio/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Damian Szczykutowicz — Mechanical Engineer">
+<meta name="twitter:description" content="Autonomous drones, topology-optimized structures, CAD/FEA, and embedded systems.">
+<meta name="twitter:image" content="https://damianszczykutowicz.github.io/Portfolio/og-cover.jpg">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230d0f12'/%3E%3Cpath d='M9 9L23 23M23 9L9 23' stroke='%235fb3c9' stroke-width='2'/%3E%3Cg fill='%23ff7a45'%3E%3Ccircle cx='9' cy='9' r='3.2'/%3E%3Ccircle cx='23' cy='9' r='3.2'/%3E%3Ccircle cx='9' cy='23' r='3.2'/%3E%3Ccircle cx='23' cy='23' r='3.2'/%3E%3C/g%3E%3Ccircle cx='16' cy='16' r='2.6' fill='%23e8eaed'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0d0f12;
+    --bg-soft:#15181d;
+    --panel:#1a1e24;
+    --line:#2a2f37;
+    --text:#e8eaed;
+    --muted:#9aa1ab;
+    --faint:#646b76;
+    --accent:#ff7a45;        /* blueprint amber */
+    --accent-dim:#c75e34;
+    --blue:#5fb3c9;
+    --maxw:1100px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'IBM Plex Sans',sans-serif;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+    /* faint blueprint grid */
+    background-image:
+      linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);
+    background-size:32px 32px;
+  }
+  ::selection{background:var(--accent);color:#0d0f12}
+
+  /* ---------- NAV ---------- */
+  nav{
+    position:fixed;top:0;left:0;right:0;z-index:50;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:18px clamp(20px,5vw,48px);
+    backdrop-filter:blur(12px);
+    background:rgba(13,15,18,.55);
+    border-bottom:1px solid transparent;
+    transition:border-color .3s,background .3s;
+  }
+  nav.scrolled{border-bottom:1px solid var(--line);background:rgba(13,15,18,.85)}
+  .brand{
+    font-family:'IBM Plex Mono',monospace;
+    font-weight:600;font-size:.9rem;letter-spacing:.04em;
+    color:var(--text);text-decoration:none;
+  }
+  .brand span{color:var(--accent)}
+  .nav-links{display:flex;gap:28px;list-style:none}
+  .nav-links a{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:.78rem;letter-spacing:.05em;text-transform:uppercase;
+    color:var(--muted);text-decoration:none;transition:color .2s;
+  }
+  .nav-links a:hover{color:var(--accent)}
+  .nav-toggle{display:none;background:none;border:none;color:var(--text);font-size:1.4rem;cursor:pointer}
+  @media(max-width:680px){
+    .nav-links{
+      position:fixed;inset:0 0 0 auto;width:min(70vw,260px);
+      flex-direction:column;justify-content:center;gap:32px;
+      background:var(--bg-soft);border-left:1px solid var(--line);
+      transform:translateX(100%);transition:transform .3s;padding-left:40px;
+    }
+    .nav-links.open{transform:translateX(0)}
+    .nav-toggle{display:block;z-index:60}
+  }
+
+  /* ---------- HERO ---------- */
+  header{
+    min-height:100vh;display:flex;flex-direction:column;justify-content:center;
+    max-width:var(--maxw);margin:0 auto;padding:120px clamp(20px,5vw,48px) 80px;
+    position:relative;
+  }
+  .eyebrow{
+    font-family:'IBM Plex Mono',monospace;font-size:.8rem;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--accent);margin-bottom:24px;
+    display:flex;align-items:center;gap:12px;
+    opacity:0;animation:rise .7s .1s forwards;
+  }
+  .eyebrow::before{content:"";width:36px;height:1px;background:var(--accent)}
+  h1{
+    font-family:'Bricolage Grotesque',sans-serif;font-weight:800;
+    font-size:clamp(2.8rem,8vw,6rem);line-height:.98;letter-spacing:-.02em;
+    margin-bottom:28px;
+  }
+  h1 .l1{display:block;opacity:0;animation:rise .7s .2s forwards}
+  h1 .l2{display:block;color:var(--faint);opacity:0;animation:rise .7s .32s forwards}
+  .hero-sub{
+    max-width:560px;font-size:1.1rem;color:var(--muted);margin-bottom:40px;
+    opacity:0;animation:rise .7s .44s forwards;
+  }
+  .hero-sub strong{color:var(--text);font-weight:600}
+  .hero-cta{display:flex;gap:16px;flex-wrap:wrap;opacity:0;animation:rise .7s .56s forwards}
+  .btn{
+    font-family:'IBM Plex Mono',monospace;font-size:.82rem;letter-spacing:.04em;
+    padding:13px 24px;text-decoration:none;border-radius:2px;transition:.2s;
+    display:inline-flex;align-items:center;gap:8px;
+  }
+  .btn-primary{background:var(--accent);color:#0d0f12;font-weight:600}
+  .btn-primary:hover{background:#ff8d5e;transform:translateY(-2px)}
+  .btn-ghost{border:1px solid var(--line);color:var(--text)}
+  .btn-ghost:hover{border-color:var(--accent);color:var(--accent)}
+  .scroll-hint{
+    position:absolute;bottom:32px;left:clamp(20px,5vw,48px);
+    font-family:'IBM Plex Mono',monospace;font-size:.7rem;letter-spacing:.15em;
+    text-transform:uppercase;color:var(--faint);
+    opacity:0;animation:rise .7s .8s forwards;
+  }
+
+  /* ---------- SECTIONS ---------- */
+  section{max-width:var(--maxw);margin:0 auto;padding:90px clamp(20px,5vw,48px)}
+  .sec-head{display:flex;align-items:baseline;gap:16px;margin-bottom:48px}
+  .sec-num{font-family:'IBM Plex Mono',monospace;font-size:.85rem;color:var(--accent)}
+  .sec-title{
+    font-family:'Bricolage Grotesque',sans-serif;font-weight:600;
+    font-size:clamp(1.6rem,4vw,2.4rem);letter-spacing:-.01em;
+  }
+  .sec-line{flex:1;height:1px;background:var(--line);align-self:center}
+
+  /* ---------- FEATURED PROJECT ---------- */
+  .project{
+    display:block;text-decoration:none;color:inherit;
+    border:1px solid var(--line);border-radius:6px;overflow:hidden;
+    background:linear-gradient(160deg,var(--panel),var(--bg-soft));
+    transition:border-color .25s,transform .25s,box-shadow .25s;
+  }
+  .project:hover{
+    border-color:var(--accent);transform:translateY(-4px);
+    box-shadow:0 20px 50px -20px rgba(255,122,69,.35);
+  }
+  .project:hover .view-link{color:var(--accent)}
+  .project:hover .view-link span{transform:translateX(5px)}
+  .view-link{
+    display:inline-flex;align-items:center;gap:8px;margin-top:6px;
+    font-family:'IBM Plex Mono',monospace;font-size:.82rem;letter-spacing:.04em;
+    color:var(--muted);transition:color .25s;
+  }
+  .view-link span{transition:transform .25s}
+  .project-media{
+    aspect-ratio:16/8;position:relative;overflow:hidden;
+    background:
+      radial-gradient(circle at 30% 40%,rgba(255,122,69,.12),transparent 55%),
+      var(--bg);
+    display:flex;align-items:center;justify-content:center;
+    border-bottom:1px solid var(--line);
+  }
+  /* placeholder blueprint drone svg */
+  .project-media svg{width:62%;max-width:420px;opacity:.85}
+  .project-media img{width:100%;height:100%;object-fit:cover;object-position:50% 55%;display:block}
+  .badge{
+    position:absolute;top:16px;left:16px;
+    font-family:'IBM Plex Mono',monospace;font-size:.7rem;letter-spacing:.08em;
+    text-transform:uppercase;background:var(--accent);color:#0d0f12;
+    padding:5px 11px;border-radius:2px;font-weight:600;
+  }
+  .project-body{padding:clamp(24px,4vw,40px)}
+  .project-body h3{
+    font-family:'Bricolage Grotesque',sans-serif;font-weight:600;
+    font-size:clamp(1.4rem,3vw,2rem);margin-bottom:14px;letter-spacing:-.01em;
+  }
+  .project-body p{color:var(--muted);max-width:680px;margin-bottom:24px}
+  .specs{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+    gap:1px;background:var(--line);border:1px solid var(--line);
+    border-radius:4px;overflow:hidden;margin-bottom:28px;
+  }
+  .spec{background:var(--bg-soft);padding:18px 20px}
+  .spec .k{font-family:'IBM Plex Mono',monospace;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);margin-bottom:6px}
+  .spec .v{font-family:'Bricolage Grotesque',sans-serif;font-size:1.5rem;font-weight:600;color:var(--text)}
+  .spec .v small{font-size:.85rem;color:var(--accent);font-family:'IBM Plex Mono',monospace}
+  .tags{display:flex;flex-wrap:wrap;gap:8px}
+  .tag{
+    font-family:'IBM Plex Mono',monospace;font-size:.72rem;color:var(--blue);
+    border:1px solid var(--line);padding:5px 12px;border-radius:20px;
+  }
+
+  /* second featured project gets breathing room below the first */
+  .project + .project{margin-top:24px}
+  .hc-status{
+    align-self:flex-start;font-family:'IBM Plex Mono',monospace;font-size:.68rem;
+    letter-spacing:.12em;text-transform:uppercase;color:var(--blue);font-weight:600;
+    border:1px solid var(--blue);border-radius:2px;padding:4px 11px;margin-bottom:16px;
+  }
+
+  /* ---------- COMING-SOON CARD (horizontal) ---------- */
+  .hcard{
+    display:grid;grid-template-columns:300px 1fr;margin-top:24px;
+    border:1px solid var(--line);border-radius:6px;overflow:hidden;background:var(--bg-soft);
+  }
+  @media(max-width:640px){.hcard{grid-template-columns:1fr}}
+  .hc-media{position:relative;min-height:210px;background:var(--bg)}
+  .hc-media img{width:100%;height:100%;object-fit:cover;display:block;opacity:.9}
+  .hc-body{padding:clamp(24px,3.5vw,34px);display:flex;flex-direction:column}
+  .hc-kicker{
+    font-family:'IBM Plex Mono',monospace;font-size:.7rem;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--faint);margin-bottom:12px;
+  }
+  .hc-body h3{
+    font-family:'Bricolage Grotesque',sans-serif;font-weight:600;
+    font-size:clamp(1.3rem,2.4vw,1.7rem);letter-spacing:-.01em;margin-bottom:12px;
+  }
+  .hc-body p{color:var(--muted);font-size:.98rem;margin-bottom:20px;max-width:620px}
+
+  /* ---------- NON-LINK HIGHLIGHT (Viam) ---------- */
+  .project.nolink{cursor:default}
+  .project.nolink:hover{transform:none;box-shadow:none;border-color:var(--accent-dim)}
+  /* portrait video framed inside a landscape media band */
+  .project-media.viam{aspect-ratio:16/9;padding:0}
+  @media(max-width:560px){.project-media.viam{aspect-ratio:5/4}}
+  .project-media.viam .vbg{
+    position:absolute;inset:0;background:url("viam-arm-poster.jpg") center/cover no-repeat;
+    filter:blur(26px) brightness(.45);transform:scale(1.15);
+  }
+  .project-media.viam video{
+    position:relative;z-index:1;height:100%;width:auto;max-width:100%;display:block;
+    object-fit:cover;border-left:1px solid rgba(255,255,255,.07);border-right:1px solid rgba(255,255,255,.07);
+  }
+
+  /* ---------- ABOUT ---------- */
+  .about-grid{max-width:760px}
+  .about-text p{color:var(--muted);margin-bottom:18px;font-size:1.05rem}
+  .about-text strong{color:var(--text);font-weight:600}
+  .about-card{
+    border:1px solid var(--line);border-radius:6px;padding:28px;background:var(--bg-soft);
+  }
+  .about-card h4{
+    font-family:'IBM Plex Mono',monospace;font-size:.72rem;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--faint);margin-bottom:18px;
+  }
+  .skill-row{display:flex;justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--line);font-size:.92rem}
+  .skill-row:last-child{border-bottom:none}
+  .skill-row span:last-child{color:var(--accent);font-family:'IBM Plex Mono',monospace;font-size:.8rem}
+
+  /* ---------- RESUME / TIMELINE ---------- */
+  .resume-head{display:flex;align-items:baseline;gap:16px;margin-bottom:48px}
+  .timeline{display:grid;grid-template-columns:1fr 1fr;gap:48px}
+  @media(max-width:760px){.timeline{grid-template-columns:1fr}}
+  .tl-col h3{
+    font-family:'IBM Plex Mono',monospace;font-size:.75rem;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--accent);margin-bottom:24px;
+  }
+  .tl-item{position:relative;padding-left:24px;padding-bottom:28px;border-left:1px solid var(--line)}
+  .tl-item:last-child{padding-bottom:0}
+  .tl-item::before{
+    content:"";position:absolute;left:-5px;top:5px;width:9px;height:9px;
+    border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px var(--bg);
+  }
+  .tl-item h4{font-family:'Bricolage Grotesque',sans-serif;font-size:1.1rem;font-weight:600;margin-bottom:3px}
+  .tl-item .date{font-family:'IBM Plex Mono',monospace;font-size:.74rem;color:var(--faint);margin-bottom:8px}
+  .tl-item p{color:var(--muted);font-size:.92rem}
+  .tl-item .course{color:var(--faint);font-size:.82rem;margin-top:8px}
+  .resume-dl{
+    display:inline-flex;align-items:center;gap:9px;margin-top:44px;
+    font-family:'IBM Plex Mono',monospace;font-size:.82rem;letter-spacing:.03em;
+    color:var(--text);text-decoration:none;border:1px solid var(--line);
+    padding:12px 22px;border-radius:2px;transition:.2s;
+  }
+  .resume-dl:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-2px)}
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    border-top:1px solid var(--line);margin-top:60px;
+    padding:60px clamp(20px,5vw,48px);
+  }
+  .footer-inner{max-width:var(--maxw);margin:0 auto}
+  .footer-cta{
+    font-family:'Bricolage Grotesque',sans-serif;font-weight:800;
+    font-size:clamp(2rem,6vw,4rem);line-height:1;letter-spacing:-.02em;margin-bottom:32px;
+  }
+  .footer-cta a{color:var(--text);text-decoration:none;transition:color .2s}
+  .footer-cta a:hover{color:var(--accent)}
+  .footer-links{display:flex;gap:28px;flex-wrap:wrap;margin-bottom:40px}
+  .footer-links a{
+    font-family:'IBM Plex Mono',monospace;font-size:.82rem;color:var(--muted);
+    text-decoration:none;display:flex;align-items:center;gap:7px;transition:color .2s;
+  }
+  .footer-links a:hover{color:var(--accent)}
+  .footer-bottom{
+    display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;
+    font-family:'IBM Plex Mono',monospace;font-size:.72rem;color:var(--faint);
+    padding-top:24px;border-top:1px solid var(--line);
+  }
+
+  /* ---------- reveal on scroll ---------- */
+  .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s,transform .7s}
+  .reveal.in{opacity:1;transform:none}
+  @keyframes rise{to{opacity:1;transform:none}}
+  .eyebrow,h1 .l1,h1 .l2,.hero-sub,.hero-cta,.scroll-hint{transform:translateY(18px)}
+
+  /* ---------- reduced motion ---------- */
+  @media (prefers-reduced-motion: reduce){
+    *,*::before,*::after{animation-duration:.001ms!important;animation-delay:0ms!important;transition-duration:.001ms!important}
+    html{scroll-behavior:auto}
+    .reveal{opacity:1!important;transform:none!important}
+    .eyebrow,h1 .l1,h1 .l2,.hero-sub,.hero-cta,.scroll-hint{opacity:1!important;transform:none!important}
+  }
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <a href="#top" class="brand">DAMIAN<span>.</span>SZCZYKUTOWICZ</a>
+  <button class="nav-toggle" id="navToggle" aria-label="Menu">☰</button>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#work">Work</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#resume">Resume</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<header id="top">
+  <div class="eyebrow">Mechanical Engineer · Robotics</div>
+  <h1>
+    <span class="l1">Damian</span>
+    <span class="l2">Szczykutowicz</span>
+  </h1>
+  <p class="hero-sub">I build drones and robots: the airframe in CAD, checked with FEA, then the electronics and the flight software. Everything below I designed, printed, wired, and flew myself.</p>
+  <div class="hero-cta">
+    <a href="#work" class="btn btn-primary">View Work →</a>
+    <a href="#contact" class="btn btn-ghost">Get in Touch</a>
+  </div>
+  <div class="scroll-hint">Scroll ↓</div>
+</header>
+
+<!-- ===== WORK ===== -->
+<section id="work">
+  <div class="sec-head reveal">
+    <span class="sec-num">01</span>
+    <span class="sec-title">Selected Work</span>
+    <span class="sec-line"></span>
+  </div>
+
+  <a href="drone.html" class="project reveal">
+    <div class="project-media">
+      <span class="badge">Featured</span>
+      <img src="drone-v3.jpg" alt="3D-printed autonomous payload drone with topology-optimized arms, in a field">
+    </div>
+    <div class="project-body">
+      <h3>AeroDrop — Autonomous Delivery UAV</h3>
+      <p>A quadcopter that takes off, flies a set of GPS waypoints, drops a payload on the target, and returns to land on its own, with no stick input after arming. I designed and 3D-printed the airframe with topology-optimized arms, checked the arm in SolidWorks FEA, and had the aluminum release CNC-machined. It runs ArduPilot on an STM32 board, planned in Mission Planner, for under $200 in parts.</p>
+      <div class="specs">
+        <div class="spec"><div class="k">Total Cost</div><div class="v"><small>&lt;$</small>200</div></div>
+        <div class="spec"><div class="k">Drop Mode</div><div class="v">GPS<small>autonomous</small></div></div>
+        <div class="spec"><div class="k">Flight Stack</div><div class="v">Ardu<small>STM32 FC</small></div></div>
+        <div class="spec"><div class="k">Structure</div><div class="v">Topo<small>optimized</small></div></div>
+      </div>
+      <div class="tags">
+        <span class="tag">SolidWorks</span>
+        <span class="tag">SolidWorks FEA</span>
+        <span class="tag">3D Printing</span>
+        <span class="tag">Design for Mfg</span>
+        <span class="tag">ArduPilot</span>
+        <span class="tag">GPS Navigation</span>
+      </div>
+      <div class="view-link">View Project <span>→</span></div>
+    </div>
+  </a>
+
+  <a href="vtol.html" class="project reveal">
+    <div class="project-media">
+      <span class="badge">Flight-tested</span>
+      <img src="vtol-hero.jpg" alt="3D-printed long-range VTOL quadplane with twin carbon booms, four lift motors, a pusher prop, and a V-tail">
+    </div>
+    <div class="project-body">
+      <h3>Long-Range VTOL Quadplane</h3>
+      <p>A fixed-wing plane that lifts off straight up on four rotors, tips over into forward flight on a pusher prop, and lands vertically again. My own airframe, 3D-printed in PLA Aero over carbon-fiber booms, running ArduPilot QuadPlane on a CoreWing F405. Flight-tested through the hover and the transition to wing-borne flight.</p>
+      <div class="specs">
+        <div class="spec"><div class="k">Config</div><div class="v">4+1<small>quadplane</small></div></div>
+        <div class="spec"><div class="k">All-Up Wt</div><div class="v">~3.2<small>kg</small></div></div>
+        <div class="spec"><div class="k">Flight Stack</div><div class="v">Ardu<small>CoreWing F405</small></div></div>
+        <div class="spec"><div class="k">Airframe</div><div class="v">3D Printed<small>PLA Aero</small></div></div>
+      </div>
+      <div class="tags">
+        <span class="tag">CAD / CadQuery</span>
+        <span class="tag">3D Printing</span>
+        <span class="tag">ArduPilot QuadPlane</span>
+        <span class="tag">VTOL Transition</span>
+        <span class="tag">Carbon Composite</span>
+        <span class="tag">DShot600</span>
+      </div>
+      <div class="view-link">View Project <span>→</span></div>
+    </div>
+  </a>
+
+  <!-- Viam hackathon arm (full highlight, no detail page) -->
+  <div class="project nolink reveal">
+    <div class="project-media viam">
+      <span class="badge">Hackathon</span>
+      <div class="vbg"></div>
+      <video src="viam-arm.mp4" poster="viam-arm-poster.jpg" controls preload="none" playsinline muted></video>
+    </div>
+    <div class="project-body">
+      <h3>Vision Pick-and-Place Arm</h3>
+      <p>At a Viam hackathon I programmed a robotic arm to spot a block by color, work out where it sits in real space from the camera pixels using a homography, plan a path to it, and pick it up and move it. Written in Python with the Viam SDK.</p>
+      <div class="specs">
+        <div class="spec"><div class="k">Task</div><div class="v">Pick<small>&amp; place</small></div></div>
+        <div class="spec"><div class="k">Detection</div><div class="v">Color<small>HSV threshold</small></div></div>
+        <div class="spec"><div class="k">Mapping</div><div class="v">Homog.<small>pixel → world</small></div></div>
+        <div class="spec"><div class="k">Stack</div><div class="v">Python<small>Viam SDK</small></div></div>
+      </div>
+      <div class="tags">
+        <span class="tag">Computer Vision</span>
+        <span class="tag">Homography</span>
+        <span class="tag">Motion Planning</span>
+        <span class="tag">Python</span>
+        <span class="tag">Viam</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Coming soon: Jetson object-tracking drone -->
+  <div class="hcard reveal">
+    <div class="hc-media">
+      <img src="jetson-drone.jpg" alt="Hexacopter with a Pixhawk 6C flight controller and power distribution, being built on the bench">
+    </div>
+    <div class="hc-body">
+      <span class="hc-status">Coming soon</span>
+      <div class="hc-kicker">Perception · Onboard Compute</div>
+      <h3>Object-Tracking Drone</h3>
+      <p>A hexacopter that does its vision onboard. An NVIDIA Jetson Orin Nano Super runs YOLO on an OAK-D Lite stereo camera for detection and depth, and talks to a Pixhawk 6C over MAVLink. S550 frame, SunnySky motors, Holybro PM07 power, and a CadQuery center plate I designed to hold the Jetson and flight controller. Write-up coming.</p>
+      <div class="tags">
+        <span class="tag">Jetson Orin</span>
+        <span class="tag">OAK-D</span>
+        <span class="tag">YOLO</span>
+        <span class="tag">Pixhawk 6C</span>
+        <span class="tag">MAVLink</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== ABOUT ===== -->
+<section id="about">
+  <div class="sec-head reveal">
+    <span class="sec-num">02</span>
+    <span class="sec-title">About</span>
+    <span class="sec-line"></span>
+  </div>
+  <div class="about-grid">
+    <div class="about-text reveal">
+      <p>I'm a mechanical engineering student in the Rutgers Honors College with a minor in computer science. Most of my time goes into drones: I design the structure in CAD, print and build it, then get the electronics and flight software working and take it out to fly.</p>
+      <p>I work across the whole build. Mechanical design and FEA in SolidWorks, plus parametric modeling in CadQuery. Embedded and flight work on STM32, Pixhawk, and Jetson boards, all wired and tuned by hand under ArduPilot and MAVLink. Scripting and analysis in Python and MATLAB. Fabrication with 3D printing, carbon-fiber tube, and light machining.</p>
+      <p>Last summer I interned at Novartis in radioligand-therapy manufacturing, keeping 34 pieces of production equipment qualified and inspection-ready under GxP. That was the regulated, reliability side of the same instinct I bring to my own builds: make it work, then make it hold up.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== RESUME ===== -->
+<section id="resume">
+  <div class="sec-head reveal">
+    <span class="sec-num">03</span>
+    <span class="sec-title">Resume</span>
+    <span class="sec-line"></span>
+  </div>
+  <div class="timeline">
+    <div class="tl-col reveal">
+      <h3>Education</h3>
+      <div class="tl-item">
+        <h4>B.S. Mechanical Engineering</h4>
+        <div class="date">Rutgers University, Honors College · Minor in Computer Science · Expected May 2028</div>
+        <p>GPA 3.7/4.0. Dean's Scholarship, Dean's Promise Scholarship, William Gawor Scholarship.</p>
+        <p class="course">Coursework: Thermodynamics, Fluid Mechanics, Heat Transfer, Mechatronics, Design of Mechanical Components, Dynamic Systems &amp; Controls.</p>
+      </div>
+      <div class="tl-item">
+        <h4>Learning Assistant — Modern Physics</h4>
+        <div class="date">Rutgers University · Completed Peer Leader Training</div>
+        <p>Guide undergraduates through problem-solving and concept explanation.</p>
+      </div>
+    </div>
+    <div class="tl-col reveal">
+      <h3>Experience</h3>
+      <div class="tl-item">
+        <h4>Manufacturing Engineering Intern — Novartis</h4>
+        <div class="date">East Hanover, NJ · May 2026 – Aug 2026 · Radioligand Therapy (GxP)</div>
+        <p>Ran equipment lifecycle management for GxP radioligand production assets in BMRAM and Kneat, keeping 34 critical pieces of equipment qualified and inspection-ready. Executed periodic-review protocols, flagged overdue actions and performance drift, and partnered with production, quality, MS&amp;T, and process engineering to resolve record discrepancies.</p>
+      </div>
+      <div class="tl-item">
+        <h4>Process Engineering Co-op — ColdTrack</h4>
+        <div class="date">Edison, NJ · Sep 2024 – May 2026</div>
+        <p>Analyzed large-scale operational datasets in MATLAB, Python, and Excel to find failure trends and root causes of yield loss. Applied Lean Six Sigma to clear bottlenecks, and built a data-driven cartonization model that cut packaging and logistics waste ~15% (~$9M annual savings).</p>
+      </div>
+    </div>
+  </div>
+  <a href="Damian_Szczykutowicz_Resume.pdf" class="resume-dl" download>↓ Download resume (PDF)</a>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer id="contact">
+  <div class="footer-inner">
+    <div class="footer-cta reveal">
+      Let's build<br><a href="mailto:dszczykut1@gmail.com">something →</a>
+    </div>
+    <div class="footer-links reveal">
+      <a href="https://github.com/DamianSzczykutowicz" target="_blank" rel="noopener">↗ GitHub</a>
+      <a href="https://www.linkedin.com/in/damian-szczykutowicz/" target="_blank" rel="noopener">↗ LinkedIn</a>
+      <a href="mailto:dszczykut1@gmail.com">✉ dszczykut1@gmail.com</a>
+      <a href="tel:+19084163130">✆ 908-416-3130</a>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Damian Szczykutowicz</span>
+      <span>Designed &amp; built from scratch</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // nav scroll state
+  const nav=document.getElementById('nav');
+  addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>40));
+  // mobile menu
+  const toggle=document.getElementById('navToggle'),links=document.getElementById('navLinks');
+  toggle.addEventListener('click',()=>links.classList.toggle('open'));
+  links.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>links.classList.remove('open')));
+  // reveal on scroll
+  const io=new IntersectionObserver((es)=>{
+    es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}});
+  },{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
